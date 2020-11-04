@@ -37,3 +37,45 @@ done
 echo "The winning probability :"
 echo "$count : ${coin[$count]} percentage%"
 ;;
+2)
+doublet=([HH]=0 [HT]=0 [TH]=0 [TT]=0)
+declare -A coin
+for i in $(seq 1 50)
+do
+flip1=$((RANDOM%2))
+flip2=$((RANDOM%2))
+if [[ $flip1 == 1 && $flip2 == 1 ]]
+then
+        coin[$i]="HH"
+        ((HH++))
+elif [[ $flip1 == 1 && $flip2 == 0 ]]
+then
+        coin[$i]="HT"
+        ((HT++))
+elif [[ $flip1 == 0 && $flip2 == 1 ]]
+then
+        coin[$i]="TH"
+        ((TH++))
+else
+        coin[$i]="TT"
+        ((TT++))
+fi
+done
+HH=`expr $HH \* 100 / 50 `
+echo "HH : $HH % "
+HT=`expr $HT \* 100 / 50`
+echo "HT : $HT %"
+TH=`expr $TH \* 100 / 50 `
+echo "TH : $TH % "
+TT=`expr $TT \* 100 / 50`
+echo "TT : $TT %"
+declare -A Dict1
+doublet=([HH]=$HH [HT]=$HT [TH]=$TH [TT]=$TT)
+max=0
+for i in ${!doublet[@]}
+do
+        (( $i > count || count == 0 ))&& count=$i
+done
+echo "The winning combinatioon :"
+echo "$count : ${doublet[$count]} percentage %"
+;;
