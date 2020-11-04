@@ -30,12 +30,12 @@ echo "T : $T %"
 declare -A singlet
 singlet=([H]=$H [T]=$T)
 count=0
-for i in ${!coin[@]}
+for i in ${!singlet[@]}
 do
         (( $i > count || count == 0 ))&& count=$i
 done
 echo "The winning probability :"
-echo "$count : ${coin[$count]} percentage%"
+echo "$count : ${singlet[$count]} percentage%"
 ;;
 2)
 doublet=([HH]=0 [HT]=0 [TH]=0 [TT]=0)
@@ -46,7 +46,7 @@ flip1=$((RANDOM%2))
 flip2=$((RANDOM%2))
 if [[ $flip1 == 1 && $flip2 == 1 ]]
 then
-        coin[$i]="HH"
+       coin[$i]="HH"
         ((HH++))
 elif [[ $flip1 == 1 && $flip2 == 0 ]]
 then
@@ -69,17 +69,16 @@ TH=`expr $TH \* 100 / 50 `
 echo "TH : $TH % "
 TT=`expr $TT \* 100 / 50`
 echo "TT : $TT %"
-declare -A doublet
+declare -A coin
 doublet=([HH]=$HH [HT]=$HT [TH]=$TH [TT]=$TT)
-max=0
+count=0
 for i in ${!doublet[@]}
 do
         (( $i > count || count == 0 ))&& count=$i
 done
 echo "The winning combinatioon :"
-echo "$count : ${doublet[$count]} percentage %"
+echo "$count : ${doublet[$count]} percentage%"
 ;;
-
 3)
 triplet=([HHH]=0 [HHT]=0 [HTH]=0 [THH]=0 [TTH]=0 [THT]=0 [HTT]=0 [TTT]=0)
 declare -A coin
@@ -90,34 +89,34 @@ flip2=$((RANDOM%2))
 flip3=$((RANDOM%2))
 if [[ $flip1 == 1 && $flip2 == 1 && $flip3 == 1 ]]
 then
-	coin[$i]="HHH"
+	Dict[$i]="HHH"
 	((HHH++))
 elif [[ $flip1 == 1 && $flip2 == 1 && $flip3 == 0 ]]
 then
-        coin[$i]="HHT"
+        Dict[$i]="HHT"
         ((HHT++))
 elif [[ $flip1 == 1 && $flip2 == 0 && $flip3 == 1 ]]
 then
-        coin[$i]="HTH"
+        Dict[$i]="HTH"
         ((HTH++))
 elif [[ $flip1 == 0 && $flip2 == 1 && $flip3 == 1 ]]
 then
-        coin[$i]="THH"
+        Dict[$i]="THH"
         ((THH++))
 elif [[ $flip1 == 0 && $flip2 == 0 && $flip3 == 1 ]]
 then
-        coin[$i]="TTH"
+        Dict[$i]="TTH"
         ((TTH++))
 elif [[ $flip1 == 0 && $flip2 == 1 && $flip3 == 0 ]]
 then
-        coin[$i]="THT"
+        Dict[$i]="THT"
         ((THT++))
 elif [[ $flip1 == 1 && $flip2 == 0 && $flip3 == 0 ]]
 then
-        coin[$i]="HTT"
+        Dict[$i]="HTT"
         ((HTT++))
 else
-        coin[$i]="TTT"
+        Dict[$i]="TTT"
         ((TTT++))
 fi
 done
@@ -138,10 +137,18 @@ echo "HTT : $HTT %"
 TTT=`expr $TTT \* 100 / 50`
 echo "TTT : $TTT %"
 #echo ${coin[@]}
-declare -A triplet
+declare -A coin
 triplet=([HHH]=$HHH [HHT]=$HHT [HTH]=$HTH [THH]=$THH [TTH]=$TTH [THT]=$THT [HTT]=$HTT [TTT]=$TTT)
 count=0
 for i in ${!triplet[@]}
 do
 	(( $i > count || count == 0 ))&& count=$i
 done
+echo "The winning combinatioon :"
+echo "$count : ${triplet[$count]} percentage%"
+;;
+*)
+exit 1
+;;
+esac
+
