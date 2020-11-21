@@ -144,3 +144,10 @@ for i in ${!triplet[@]}
 do
 	(( $i > count || count == 0 ))&& count=$i
 done
+echo "The winning combinatioon :"
+echo "$count : ${triplet[$count]} percentage%"
+;;
+*)
+exit 1
+;;
+esac
